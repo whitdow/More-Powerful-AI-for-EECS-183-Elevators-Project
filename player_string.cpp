@@ -3,10 +3,11 @@
 #include <string>
 #include <fstream> 
 #include <cstdlib>
+#include <random>
 #include "Utility.h"
 
-#define FILE "random_game.in"
-#define PEOPLE_SPAWN (rand() % 3 == 2) // 1/3
+#define FILE "generated_for_training.in"
+#define PEOPLE_SPAWN (rand() % 11 != 2) // 9/10
 #define NUM_PEOPLE_THAT_SPAWN (rand() % 10) + 1 // 1 - 10
 
 #define STRING(x) to_string(x)
@@ -30,6 +31,14 @@ struct people_init_string {
 
 //-------------------------------------------------------------------------//
 
+int gen_start_anger () {
+    random_device rd;
+    mt19937 gen(rd());
+    discrete_distribution<> d({5, 10, 15, 20, 15, 8, 2, 1, 0, 0});
+
+    return d(gen);
+}
+
 void build_out_string(people_init_string * player) {
     player->out_string = SPAWN_TURN 
         + "f" + CURRENT_FLOOR 
@@ -52,7 +61,7 @@ people_init_string * people_factory(int i) {
     int current_floor = rand() % 10;
     int target_floor = rand() % 10;
     while (current_floor == target_floor) { target_floor = rand() % 10; }
-    int anger = rand() % ( MAX_ANGER - 1 );
+    int anger = gen_start_anger();
 
     people_init_string * new_people = new people_init_string(spawn_turn, current_floor, target_floor, anger);
     build_out_string(new_people);
