@@ -1,0 +1,8 @@
+########################################
+# Welcome to EECS 183 Elevator Escape! #
+########################################
+
+[0] Run Tests
+[1] Load saved game
+[2] Start new game
+Choice: 
